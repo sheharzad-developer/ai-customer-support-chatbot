@@ -1,0 +1,30 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic[email]==2.10.4
+pydantic-settings==2.7.1
+email-validator==2.2.0
+python-multipart==0.0.20
+
+# Database
+sqlalchemy==2.0.36
+alembic==1.14.0
+psycopg[binary]==3.2.3
+psycopg2-binary==2.9.10
+pgvector==0.3.6
+
+# Auth
+bcrypt==4.2.1
+python-jose[cryptography]==3.3.0
+
+# RAG / LLM
+langchain==0.3.13
+langchain-openai==0.2.14
+langchain-community==0.3.13
+langchain-text-splitters==0.3.4
+openai==1.59.3
+
+# Gemini (Google) provider — compatible with langchain 0.3.x
+langchain-google-genai>=2.0,<3.0
+
+# Document loaders
+pypdf==5.1.0

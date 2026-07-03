@@ -1,0 +1,69 @@
+#! backend-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend
+    namespace: ai-customer-support-chatbot-rag
+    labels:
+        com.docker.compose.project: ai-customer-support-chatbot-rag
+        com.docker.compose.service: backend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: ai-customer-support-chatbot-rag
+            com.docker.compose.service: backend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: ai-customer-support-chatbot-rag
+                com.docker.compose.service: backend
+                com.docker.compose.network.default: "true"
+        spec:
+            restartPolicy: unless-stopped
+            containers:
+                - name: backend
+                  image: ai-customer-support-chatbot-rag-backend
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: ACCESS_TOKEN_EXPIRE_MINUTES
+                      value: "1440"
+                    - name: ADMIN_EMAIL
+                      value: "admin@example.com"
+                    - name: ADMIN_PASSWORD
+                      value: "change-me"
+                    - name: AI_PROVIDER
+                      value: "gemini"
+                    - name: CHAT_MODEL
+                      value: "gpt-4o-mini"
+                    - name: CORS_ORIGINS
+                      value: "http://localhost:3000"
+                    - name: DATABASE_URL
+                      value: "postgresql+psycopg://postgres:postgres@db:5432/ragbot"
+                    - name: EMBEDDING_DIM
+                      value: "3072"
+                    - name: EMBEDDING_MODEL
+                      value: "text-embedding-3-small"
+                    - name: GEMINI_CHAT_MODEL
+                      value: "gemini-2.5-flash"
+                    - name: GEMINI_EMBEDDING_MODEL
+                      value: "models/gemini-embedding-001"
+                    - name: GOOGLE_API_KEY
+                      value: "REPLACE_WITH_GOOGLE_API_KEY"
+                    - name: OPENAI_API_KEY
+                      value: "REPLACE_WITH_OPENAI_API_KEY"
+                    - name: SECRET_KEY
+                      value: "change-me-to-a-long-random-string"
+                  ports:
+                    - name: backend-8000
+                      containerPort: 8000
+                  volumeMounts:
+                    - name: app-uploads
+                      mountPath: /app/uploads
+            volumes:
+                - name: app-uploads
+                  persistentVolumeClaim:
+                    claimName: backend-uploads
